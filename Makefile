@@ -6,8 +6,11 @@ help:
 build: ## transiple source for production
 	@./node_modules/.bin/webpack --colors --progress --config webpack.config.js --env production
 
-devel: ## transiple source for devel
+build-dev: ## transiple source for devel
 	@./node_modules/.bin/webpack --colors --progress --config webpack.config.js --env development
+
+run-dev: ## run dev mode (hot reload)
+	@./node_modules/.bin/webpack-dev-server --inline
 
 lint: ## to check the coding rules
 	@./node_modules/.bin/eslint src/*.js

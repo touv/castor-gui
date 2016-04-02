@@ -25,6 +25,10 @@ var config = {
   },
   module: {
     loaders: [
+      // {
+      // test: /\.vue$/,
+      // loader: 'vue'
+      // },
       {
         test: /\.js$/,
         include: [
@@ -53,6 +57,9 @@ var config = {
     ]
   },
   plugins : [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: '"' + ENV + '"' } })
   ]
 }
@@ -70,6 +77,9 @@ if (ENV === 'production') {
   }))
 }
 else {
+  config['devServer'] = {
+    hot: true
+  };
   config.output.filename = './js/castor-gui.js'
   config.plugins.push(new ExtractTextPlugin('./css/castor-gui.css'))
   config.devtool = 'source-map'

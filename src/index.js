@@ -1,13 +1,22 @@
-//import 'babel-polyfill'
 import Vue from 'vue'
-//import App from './components/App.vue'
-import App from './components/root'
-import store from './store.js'
+
+import VueSimpleStore from './vue-simple-store.js'
+import tablesStore from './stores/tables.js'
+
+
+// Install it!
+Vue.use( VueSimpleStore, {
+  stores: [ tablesStore ]
+})
+
+
+import App from './components/App'
 
 const CastorGUI = new Vue({
   el: 'body',
-  store,
-  components: { App }
+  components: {
+    App
+  }
 })
 
 export default CastorGUI
