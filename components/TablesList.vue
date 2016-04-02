@@ -1,3 +1,4 @@
+<template>
 <!-- navbar component -->
 wwww
  <p>Current: {{ state.tables.current }} </p>
@@ -9,3 +10,17 @@ wwww
   </vs-nav>
 </vs-navbar>
 qqqq
+</template>
+<script>
+import 'vuestrap/core'
+import {nav, navItem} from 'vuestrap-base-components/src/components/nav'
+import navbar from 'vuestrap-base-components/src/components/navbar'
+
+export default {
+	components: {
+		'vs-nav': nav,
+		'vs-nav-item': navItem,
+		'vs-navbar': navbar
+	 }
+}
+</script>

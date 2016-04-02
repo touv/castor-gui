@@ -6,12 +6,6 @@
     "type": "git",
     "url": "git+https://github.com/castorjs/castor-gui.git"
   },
-  "main": "dist/castor-gui.js",
-  "scripts": {
-    "start": "node ./server.js",
-    "dist": "webpack --colors --progress --config webpack.config.js --env production",
-    "dev": "webpack --colors --progress --config webpack.config.js --env development"
-  },
   "keywords": [],
   "author": {
     "name": "Nicolas Thouvenin",
@@ -24,27 +18,30 @@
   },
   "dependencies": {
     "gritcode-components": "^0.4.6",
-    "optimist": "^0.6.1",
-    "vue": "^1.0.16",
-    "vuestrap-base-components": "^0.8.0",
-    "vuex": "^0.6.2",
-    "webpack-dev-middleware": "^1.6.1",
-    "webpack-dev-server": "^1.14.1",
-    "webpack-hot-middleware": "^2.10.0"
+    "vue": "^1.0.20",
+    "vuestrap": "^1.0.2",
+    "vuestrap-base-components": "^0.8.0"
   },
   "devDependencies": {
-    "autoprefixer-loader": "^3.1.0",
-    "babel-core": "^5.8.33",
-    "babel-eslint": "^4.1.3",
-    "babel-loader": "^5.3.3",
-    "css-loader": "^0.21.0",
-    "extract-text-webpack-plugin": "^0.8.2",
-    "html-loader": "^0.3.0",
-    "sass-loader": "^3.1.1",
-    "style-loader": "^0.13.0",
-    "vuestrap": "^1.0.2",
+    "babel-core": "^6.3.17",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-transform-runtime": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-runtime": "^5.8.34",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "html-loader": "^0.4.3",
+    "node-sass": "^3.4.2",
+    "optimist": "^0.6.1",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "vue-hot-reload-api": "^1.3.2",
+    "vue-html-loader": "^1.2.1",
+    "vue-loader": "^8.2.2",
+    "vue-style-loader": "^1.0.0",
     "vuestrap-theme-loader": "^0.1.2",
-    "webpack": "^1.12.9"
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   },
   "homepage": "https://github.com/touv/castor-gui#readme"
 }

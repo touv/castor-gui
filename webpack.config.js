@@ -7,7 +7,7 @@ var ENV = optimist.argv.env || 'development'
 var config = {
   themeLoader: {
     themes: [
-      './src/theme/bootstrap.scss',
+      './theme/bootstrap.scss',
       './node_modules/vuestrap/theme/_bootstrap.scss',
       './node_modules/vuestrap/bootstrap/bootstrap.scss'
     ]
@@ -15,8 +15,7 @@ var config = {
   resolve: {
     root: path.resolve('./')
   },
-  entry :  './src/index.js'
-  ,
+  entry: './main.js',
   output : {
     path: './dist',
     publicPath: '/dist/',
@@ -25,17 +24,17 @@ var config = {
   },
   module: {
     loaders: [
-      // {
-      // test: /\.vue$/,
-      // loader: 'vue'
-      // },
+      {
+        test: /\.vue$/, // a regex for matching all files that end in `.vue`
+        loader: 'vue'   // loader to use for matched files
+      },
       {
         test: /\.js$/,
+        loader: 'babel',
         include: [
-          path.resolve('./src'),
-          path.resolve('./node_modules'),
-        ],
-        loader: 'babel'
+          path.resolve('.'),
+          path.resolve('./node_modules')
+        ]
       },
       {
         test: /\.html$/,
