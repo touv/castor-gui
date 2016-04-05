@@ -1,27 +1,26 @@
 <template>
-  <div class="app">
-  <tables-list></tables-list>
+  <menu></menu>
+  <div class="container-fluid">
+	<item></item>
   </div>
 </template>
 
 <script>
 import TablesList from './TablesList.vue'
+import TablesItem from './TablesItem.vue'
 
 export default {
   components: {
-    'tables-list': TablesList
+    'menu': TablesList,
+    'item': TablesItem
   }
 }
 </script>
 
 <style>
 body {
-	padding: 5em 2em;
-	background-color: red;
+	padding-top: 55px;
+	background-color: #ccc;
 }
 
-footer .container {
-	border-top: 1px solid #ccc;
-	padding-top: 1em;
-}
 </style>
