@@ -1,13 +1,13 @@
 
 import Vue from 'vue'
 import VueResource from 'vue-resource'
-import VueSimpleStore from './vue-simple-store.js'
-import tablesStore from './stores/tables.js'
+import sharedStore from './store.js'
 
-Vue.use( VueSimpleStore, {
-  stores: [ tablesStore ]
-})
 Vue.use(VueResource)
+
+Vue.filter('uri', function (input) {
+    return String(input).replace(window.location.origin, '');
+})
 
 import App from './components/App.vue'
 

@@ -2,8 +2,8 @@
 <vs-navbar fixed="top" type="dark" variant="inverse" full>
   <a class="navbar-brand" href="#">Navbar</a>
   <vs-nav type="navbar" class="pull-xs-left" >
-	<li v-for="table in tables" class="nav-item" v-bind:class="{ 'active' : table.isSelected }">
-	  <a href="#" class="nav-link" v-on:click="doChoose(table)">{{ table.title }}</a>
+	<li v-for="table in store.allTables" class="nav-item" v-bind:class="{ 'active' : table.isSelected }">
+	  <a href="#" class="nav-link" v-on:click="doChoose(table)">{{ table.label }}</a>
 	</li>
   </vs-nav>
   <form class="form-inline navbar-form pull-xs-right">
@@ -15,34 +15,34 @@
 import 'vuestrap/core'
 import {nav, navItem} from 'vuestrap-base-components/src/components/nav'
 import navbar from 'vuestrap-base-components/src/components/navbar'
+import sharedStore from '../store.js'
 
 export default {
 	ready () {
 		let self = this;
-		let url = 'http://localhost:3000/index/*?alt=raw';
+		let url = 'http://localhost:3000/index/*?alt=dry';
 		self.$http.get(url).then(function (response) {
 			if (Array.isArray(response.data)) {
 				response.data.forEach(function(i, index) {
 					response.data[index].isSelected = false
 				})
 				response.data[0].isSelected = true
-				self.$set('tables', response.data)
-				this.$action('tables:select_one', response.data[0])
+				self.$set('store.allTables', response.data)
 			}
 		}, console.error);
 	},
 	data () {
 		return {
-			tables : []
+			store: sharedStore
 		}
 	},
 	methods: {
 		doChoose (table) {
 			var self = this;
-			self.tables.forEach(function(i, index) {
-				self.tables[index].isSelected = i._wid === table._wid ? true: false
+			self.store.allTables.forEach(function(i, index) {
+				self.store.allTables[index].isSelected = i.id === table.id ? true: false
 			})
-			this.$action('tables:select_one', table)
+			self.$set('store.currentTable', table)
 		}
     },
 	components: {

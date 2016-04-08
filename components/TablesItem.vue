@@ -9,17 +9,20 @@
 		  </vs-dropdown>
 	</form>
 
-	<h1>Current: {{ state.tables.current._wid }} </h1>
+	<h1>Current: {{ store.currentTable.label }} </h1>
 </div>
 </vs-navbar>
 </template>
 <script>
 import 'vuestrap/core'
 import dropdown from 'vuestrap-base-components/src/components/dropdown'
+import sharedStore from '../store.js'
 
 export default {
 	data () {
-		return { }
+		return { 
+			store : sharedStore
+		}
 	},
 	methods: { },
 	components: { 
@@ -29,8 +32,8 @@ export default {
 </script>
 <style>
 #tables-item {
-padding-top : 4px;
-padding-left: 16px;
-padding-right: 16px;
+	padding-top : 4px;
+	padding-left: 16px;
+	padding-right: 16px;
 }
 </style>
