@@ -3,7 +3,7 @@
   <a class="navbar-brand" href="#">Navbar</a>
   <vs-nav type="navbar" class="pull-xs-left" >
 	<li v-for="table in store.allTables" class="nav-item" v-bind:class="{ 'active' : table.isSelected }">
-	  <a href="#" class="nav-link" v-on:click="doChoose(table)">{{ table.label }}</a>
+	  <a href="#" class="nav-link" v-on:click="doChoose(table)">{{ table.value }}</a>
 	</li>
   </vs-nav>
   <form class="form-inline navbar-form pull-xs-right">
@@ -20,7 +20,7 @@ import sharedStore from '../store.js'
 export default {
 	ready () {
 		let self = this;
-		let url = 'http://localhost:3000/index/*?alt=dry';
+		let url = 'http://localhost:3000/index/*?alt=min';
 		self.$http.get(url).then(function (response) {
 			if (Array.isArray(response.data)) {
 				response.data.forEach(function(i, index) {

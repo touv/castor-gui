@@ -3,13 +3,16 @@
 	<form class="form-inline pull-xs-right">
 		<vs-dropdown text="Download" size="md" variant="default" :arrow="arrow" :caret="true">
 			  <ul class="dropdown-menu dropdown-menu-right">
-				  <li><a class="dropdown-item" href="#">Completed</a></li>
-				  <li><a class="dropdown-item" href="#">Pending</a></li>
+				  <li><a class="dropdown-item" href="#">CSV</a></li>
+				  <li><a class="dropdown-item" href="#">TSV</a></li>
+				  <li><a class="dropdown-item" href="#">N-Quads</a></li>
+				  <li><a class="dropdown-item" href="#">JSON-LD</a></li>
+				  <li><a class="dropdown-item" href="#">RAW</a></li>
 			  </ul>
 		  </vs-dropdown>
 	</form>
 
-	<h1>Current: {{ store.currentTable.label }} </h1>
+	<span>Current: {{ store.currentTable.value }} </span>
 </div>
 </vs-navbar>
 </template>
