@@ -5,10 +5,10 @@
 			<tr>
 				<th data-resizable-column-id="column-index"></th>
 				<th data-resizable-column-id="column-uri">URI</th>
-				<th v-for="(name, field) in store.currentTable.columns" data-resizable-column-id="column-{{name}}">
-					<span>{{ field }}</span>
-					<a href="" class="action-editcolumn pull-right" data-toggle="modal" data-target="#modal-editcolumn" role="button" data-column='{{ name }}' ><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-					</th>
+				<th v-for="(name, field) in columns" data-resizable-column-id="column-{{name}}">
+				<span>{{ field.label }}</span>
+        <a href="" class="action-editcolumn pull-right" data-toggle="modal" data-target="#modal-editcolumn" role="button" data-column='{{ name }}' ><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+        </th>
 				<th data-resizable-column-id="column-buttons"></th>
 			</tr>
 		</thead>
@@ -20,11 +20,9 @@
 				<td>
 				  <a href="{{ item['@id'] }}/">{{ item['@id'] | uri }}</a>
 				</td>
-				<td v-for="(name, field) in columns">
-				<span>{{ name }}</span>
-				<span>{{ field}}</span>
+				<th v-for="(name, field) in columns" data-resizable-column-id="column-{{name}}">
 				<span>{{ item[name] }}</span>
-				</td>
+        </td>
 				<td>
 				  <a style="margin: 2px" title="CSV file" href="./[[ item._content.jsonld|get('_wid') ]]/*?alt=csv"><span class="fa fa-table"></span></a>
 				  <a style="margin: 2px" title="N-Quads file" href="./[[ item._content.jsonld|get('_wid') ]]/*?alt=nq"><span class="fa fa-bars"></span></a>
@@ -48,14 +46,17 @@ export default {
 				let url1 = 'http://localhost:3000/index/' + self.store.currentTable._id + '/$_columns';
 				self.$http.get(url1).then(function (response) {
 					if (Array.isArray(response.data)) {
+						console.log('columns', response.data[0].value)
 						self.$set('columns', response.data[0].value)
 					}
 				}, console.error);
 
-				let url2 = 'http://localhost:3000/' + self.store.currentTable._id + '/*';
+				let url2 = 'http://localhost:3000/' + self.store.currentTable._id + '/*?alt=jsonld';
 				console.log('refresh', url2);
         self.$http.get(url2).then(function (response) {
 					if (Array.isArray(response.data)) {
+            console.log('items', response.data)
+						self.$set('items', response.data)
 					}
         }, console.error);
 		})
@@ -67,7 +68,7 @@ export default {
 			store : sharedStore
 		}
 	},
-	components: {
+  components: { 
 	}
 }
 </script>
