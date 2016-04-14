@@ -12,7 +12,7 @@
 				<th data-resizable-column-id="column-buttons"></th>
 			</tr>
 		</thead>
-		<tbody id="items-tbody">
+		<tbody id="items-tbody"  v-infinite-scroll="loadMore()" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
 			<tr v-for="item in items">
 				<td>
 				  #{{ $index }}
@@ -39,6 +39,7 @@ import 'vuestrap/core'
 import sharedStore from '../store.js'
 
 
+var count = 0;
 export default {
 	ready () {
 		let self = this;
@@ -65,11 +66,25 @@ export default {
 		return {
 			items : [],
       columns : {},
-			store : sharedStore
+			store : sharedStore,
+      busy: false
 		}
 	},
   components: { 
-	}
+  },
+  methods: {
+    loadMore () {
+      let self = this;
+      self.busy = true;
+
+      setTimeout(() => {
+        for (var i = 0, j = 10; i < j; i++) {
+          self.items.push({ name: count++ });
+        }
+        self.busy = false;
+      }, 1000);
+    }
+  }
 }
 </script>
 <style>
