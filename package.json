@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "gritcode-components": "^0.4.6",
+    "mongodb-querystring": "^1.0.3",
     "vue": "^1.0.20",
     "vue-infinite-scroll": "^0.2.2",
     "vue-resource": "^0.7.0",

@@ -37,6 +37,7 @@
 <script>
 import 'vuestrap/core'
 import sharedStore from '../store.js'
+import MQS from 'mongodb-querystring'
 
 
 var count = 0;
@@ -50,47 +51,77 @@ export default {
 						console.log('columns', response.data[0].value)
 						self.$set('columns', response.data[0].value)
 					}
-				}, console.error);
-
-				let url2 = 'http://localhost:3000/' + self.store.currentTable._id + '/*?alt=jsonld';
-				console.log('refresh', url2);
-        self.$http.get(url2).then(function (response) {
-					if (Array.isArray(response.data)) {
-            console.log('items', response.data)
-						self.$set('items', response.data)
-					}
-        }, console.error);
+				}, console.error)
+        self.page = 1 
+        self.maxpage = 1000000 
+        self.items = []
+        self.load()
 		})
 	},
 	data () {
 		return {
-			items : [],
+      items : [],
+      maxpage: 100000,
+      page : 1,
       columns : {},
 			store : sharedStore,
       busy: false
 		}
 	},
-  components: { 
+  components: {
   },
   methods: {
+    load(done) {
+      let self = this;
+      let limit = 5;
+      let page = Number(self.page)
+      page = Number.isNaN(page) ? 1 : page
+      let offset = limit * (page - 1)
+      let  query = {
+        'alt' : 'jsonld',
+        //          '$orderby': {},
+        '$offset': Number(offset),
+        '$limit': Number(limit)
+      };
+
+      let url2 = 'http://localhost:3000/' + self.store.currentTable._id + '/*?' + MQS.stringify(query);
+      console.log('refresh', url2);
+      self.$http.get(url2).then(function (response) {
+        if (Array.isArray(response.data)) {
+          console.log('items', response.data)
+          if (response.data.length > 0) {
+            response.data.forEach(function(item) {
+              self.items.push(item);
+            }
+          )}
+          else {
+            console.log('maxpage', self.page)
+            self.maxpage = self.page;
+          }
+        }
+        if (typeof done === 'function') {
+          done();
+        }
+      }, console.error);
+    },
     loadMore () {
       let self = this;
-      self.busy = true;
-
-      setTimeout(() => {
-        for (var i = 0, j = 10; i < j; i++) {
-          self.items.push({ name: count++ });
-        }
-        self.busy = false;
-      }, 1000);
+      self.page++;
+      if (self.page < self.maxpage) {
+        self.busy = true;
+        console.log('Load more page #', self.page);
+        self.load(() => {
+          self.busy = false;
+        })
+      }
     }
   }
 }
 </script>
 <style>
 #tables-item {
-	padding-top : 4px;
-	padding-left: 16px;
-	padding-right: 16px;
+  padding-top : 4px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 </style>
