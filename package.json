@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "gritcode-components": "^0.4.6",
+    "jquery": "^2.2.3",
+    "jquery-resizable-columns": "^0.2.3",
     "mongodb-querystring": "^1.0.3",
     "vue": "^1.0.20",
     "vue-infinite-scroll": "^0.2.2",

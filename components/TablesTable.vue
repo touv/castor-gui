@@ -1,6 +1,6 @@
 <template>
 <div id="tables-item" class="row">
-	<table class="table table-bordered" data-resizable-columns-id="table-html">
+	<table v-resizable-columns class="table table-bordered" data-resizable-columns-id="table-html">
 		<thead>
 			<tr>
 				<th data-resizable-column-id="column-index"></th>
