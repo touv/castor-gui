@@ -22,6 +22,8 @@ var config = {
     libraryTarget: "var",
     library: "CastorGUI"
   },
+  externals: {
+  },
   module: {
     loaders: [
       {
