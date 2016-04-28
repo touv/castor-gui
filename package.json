@@ -17,10 +17,13 @@
     "url": "https://github.com/castorjs/castor-gui/issues"
   },
   "dependencies": {
+    "file-loader": "^0.8.5",
+    "font-awesome-webpack": "0.0.4",
     "gritcode-components": "^0.4.6",
     "jquery": "^2.2.3",
     "jquery-resizable-columns": "^0.2.3",
     "mongodb-querystring": "^1.0.3",
+    "url-loader": "^0.5.7",
     "vue": "^1.0.20",
     "vue-infinite-scroll": "^0.2.2",
     "vue-resource": "^0.7.0",

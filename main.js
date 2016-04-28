@@ -2,29 +2,16 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import sharedStore from './store.js'
-import infiniteScroll from 'vue-infinite-scroll';
-import $ from 'jquery';
-import jQuery from 'jquery';
-// export for others scripts to use
-window.$ = $;
-window.jQuery = jQuery;
+import infiniteScroll from 'vue-infinite-scroll'
 
-import ResizableColumns from 'jquery-resizable-columns'
+
+import fontAwesome from 'font-awesome-webpack'
 
 Vue.use(infiniteScroll)
 Vue.use(VueResource)
 
 Vue.filter('uri', function (input) {
     return String(input).replace(window.location.origin, '');
-})
-
-Vue.directive('resizable-columns', {
-  twoWay: true,
-  priority: 1000,
-  bind: function () {
-    var self = this
-    $(this.el).resizableColumns();
-  },
 })
 
 var vm = new Vue({

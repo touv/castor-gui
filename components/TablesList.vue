@@ -7,7 +7,7 @@
 	</li>
   </vs-nav>
   <form class="form-inline navbar-form pull-xs-right">
-    <button class="btn btn-success-outline" type="submit">ADD</button>
+    <button class="btn btn-success-outline" v-on:click="doCreate(table)">ADD</button>
   </form>
 </vs-navbar>
 </template>
