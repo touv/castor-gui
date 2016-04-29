@@ -6,9 +6,9 @@
 	  <a href="#" class="nav-link" v-on:click="doChoose(table)">{{ table.value }}</a>
 	</li>
   </vs-nav>
-  <form class="form-inline navbar-form pull-xs-right">
-    <button class="btn btn-success-outline" v-on:click="doCreate(table)">ADD</button>
-  </form>
+  <div class="pull-xs-right">
+    <button class="btn btn-success-outline" v-on:click="doCreate(table)"><i class="fa fa-plus-square fa-2x" aria-hidden="true"></i></button>
+  </div>
 </vs-navbar>
 </template>
 <script>
@@ -38,11 +38,22 @@ export default {
 	},
 	methods: {
 		doChoose (table) {
-			var self = this;
+			let self = this;
 			self.store.allTables.forEach(function(i, index) {
 				self.store.allTables[index].isSelected = i.id === table.id ? true: false
 			})
 			self.$set('store.currentTable', table)
+		},
+		doCreate (table) {
+			let self = this;
+			let url = 'http://localhost:3000/index/?typ=form';
+			console.log('post', url)
+			let formData = {
+				title: 'Table X'
+			}
+			self.$http.post(url, formData).then(function (response) {
+				console.log(response);
+			}, console.error)
 		}
     },
 	components: {
