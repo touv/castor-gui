@@ -9,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">LODEX</a>
+      <a class="navbar-brand" href="/">CASTOR</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -18,7 +18,7 @@
 		<li v-for="table in store.allTables" class="" v-bind:class="{ 'active' : table.isSelected }">
 			<a href="#">
 				<startable v-bind:table="table"></startable>
-				<span v-on:click="choose(table)">{{ table.title }}</span>
+				<span v-on:click="choose(table)">{{ table.value}}</span>
 			</a>
 		</li>
       </ul>
@@ -50,11 +50,28 @@ export default {
 	methods: {
 		reload(done) {
 			let self = this;
-			let url = self.store.serverHost + '/index/*?alt=jsonld';
+			let qry = {
+				"alt" : "min",
+				"$query" : { },
+				"$limit" : 1,
+				"$orderby" : {
+					"_rootSince" : -1
+				}
+			}
+			let url = self.store.serverHost
+			.concat('/index/*?')
+			.concat(MQS.stringify(qry, {}));
+
 			self.$http.get(url).then(function (response) {
+				let rootTable = response.data[0]._id
+				let url = self.store.serverHost.concat('/index/*?alt=min');
+				self.$http.get(url).then(function (response) {
+					console.log('reloaded : root(', rootTable, ') size(', response.data.length, ')');
+
 					if (Array.isArray(response.data)) {
 						response.data.forEach(function(i, index) {
-								response.data[index].isSelected = false
+							response.data[index].isSelected = false
+							response.data[index].isRoot = response.data[index]._id === rootTable
 						})
 						response.data[0].isSelected = true
 						self.store.allTables = response.data
@@ -63,12 +80,13 @@ export default {
 							done();
 						}
 					}
+				}, console.error);
 			}, console.error);
 		},
 		choose(table) {
 			let self = this;
 			self.store.allTables.forEach(function(i, index) {
-				self.store.allTables[index].isSelected = i.name === table.name ? true: false
+				self.store.allTables[index].isSelected = i._id === table._id ? true: false
 			})
 			self.store.currentTable = table
 		},
@@ -78,16 +96,15 @@ export default {
 		},
 		create(table) {
 			let self = this;
-			let query = {
-				'typ' : 'form',
-				'filename' : String('t').concat(this.store.allTables.length + 1).concat('.table')
+			// http://127.0.0.1:3000/-/echo/t1.table?a=1&b=2
+			let queryData = {
+				title: 'Table #' + (self.store.allTables.length + 1)
 			};
-			let url = self.store.serverHost + '/index/?' + MQS.stringify(query);
-			console.log('post', url)
+			let url = self.store.serverHost + '/index/';
 			let formData = {
-				title: 'Table #' + (self.store.allTables.length + 1),
-				since: Date.now()
+				'url' : self.store.serverHost + '/-/echo/t' + String(this.store.allTables.length + 1) + '.table?' + MQS.stringify(queryData)
 			}
+			console.log('post', url, formData)
 			self.$http.post(url, formData).then(function (response) {
 				self.reload();
 			}, console.error)

@@ -5,21 +5,28 @@
 </span>
 </template>
 <script>
+import sharedStore from './store.js'
 
 export default {
     props: [
 		'table'
 	],
+	data () {
+		return {
+			store: sharedStore
+		}
+	},
 	methods: {
 		starer(table) {
-			const self = this;
-			const idt = self.table.name;
-			const url = self.store.serverHost + '/-/setroot/';
-			const dta = {
-				'origin': idt,
-				'isRoot': true
-			};
-			self.$http.post(url, dta).then(function (response) {
+			let self = this;
+			let url = self.store.serverHost + '/index/' + self.table._id;
+			let formData = {
+				"$set" :  {
+					_rootSince: new Date(Date.now())
+				}
+			}
+			console.log('post', url, formData)
+			self.$http.post(url, formData).then(function (response) {
 					self.$dispatch('stared', self.table);
 
 			}, console.error);
