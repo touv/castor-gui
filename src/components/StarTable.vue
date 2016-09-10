@@ -6,6 +6,8 @@
 </template>
 <script>
 import sharedStore from './store.js'
+import MQS from 'mongodb-querystring'
+
 
 export default {
     props: [
@@ -26,7 +28,7 @@ export default {
 				}
 			}
 			console.log('post', url, formData)
-			self.$http.post(url, formData).then(function (response) {
+			self.$http.post(url, MQS.stringify(formData)).then(function (response) {
 					self.$dispatch('stared', self.table);
 
 			}, console.error);

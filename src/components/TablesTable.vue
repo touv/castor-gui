@@ -6,7 +6,7 @@
 				<th data-resizable-column-id="column-index"></th>
 				<th data-resizable-column-id="column-uri">URI</th>
 				<th v-for="(name, field) in columns" data-resizable-column-id="column-{{name}}">
-					<span>{{ field.label }}</span>
+					<span>{{ field.title }}</span>
 					<a href="" class="action-editcolumn pull-right" data-toggle="modal" data-target="#modal-editcolumn" role="button" data-column='{{ name }}' ><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 				</th>
 				<th data-resizable-column-id="column-buttons"></th>
@@ -21,7 +21,7 @@
 				  <a href="{{ item['@id'] }}/">{{ item['@id'] | uri }}</a>
 				</td>
 				<td v-for="(name, field) in columns" data-resizable-column-id="column-{{name}}">
-					<span>{{ item[name] }}</span>
+					<span>{{ item[name].content }}</span>
 		        </td>
 				<td>
 				  <a style="margin: 2px" title="CSV file" href="./[[ item._content.jsonld|get('_wid') ]]/*?alt=csv"><span class="fa fa-table"></span></a>
@@ -44,14 +44,14 @@ export default {
 	ready () {
 		let self = this;
 		this.$watch('store.currentTable', function (newVal, oldVal) {
-			let url1 = self.store.serverHost + '/index/' + self.store.currentTable.name + '/$_columns';
+			let url1 = self.store.serverHost + '/index/' + self.store.currentTable._id + '/*?alt=dry';
 			self.$http.get(url1).then(function (response) {
+			console.log('columns', response.data[0]._columns, response.data)
 					if (Array.isArray(response.data)) {
-						console.log('columns', response.data[0].value)
-						self.$set('columns', response.data[0].value)
+						self.$set('columns', response.data[0]._columns)
 					}
 			}, console.error);
-			let url2 = self.store.serverHost + '/' + self.store.currentTable.name + '/$count';
+			let url2 = self.store.serverHost + '/' + self.store.currentTable._id + '/$count';
 				self.$http.get(url1).then(function (response) {
 					if (Array.isArray(response.data)) {
 						console.log('$count', response.data[0].value)
@@ -67,13 +67,13 @@ export default {
 	},
 	data () {
 		return {
-      items : [],
-      maxpage: 1,
-	  pagesize : 50,
-      page : 1,
-      columns : {},
+			items : [],
+		    maxpage: 1,
+			pagesize : 50,
+			page : 1,
+			columns : {},
 			store : sharedStore,
-      busy: false
+			busy:	false
 		}
 	},
   components: {
@@ -86,7 +86,7 @@ export default {
       page = Number.isNaN(page) ? 1 : page
       let offset = limit * (page - 1)
       let  query = {
-        'alt' : 'jsonld',
+	  'alt' : 'dry',
         //          '$orderby': {},
         '$offset': Number(offset),
         '$limit': Number(limit)
